@@ -37,6 +37,7 @@
       .container {
         width: 390px;
         height: 100%;
+        margin-bottom: 100px;
       }
 
       .photo-container {
@@ -248,7 +249,7 @@
 
         <div class="footer">
           <p class="f-title">Happy Time</p>
-          <p class="f-date">2024.07.22</p>
+          <p class="f-date" id="current-date"></p>
         </div>
         <img
           id="overlay-image1"
@@ -265,6 +266,10 @@
     <!-- 라이브러리 로드 -->
     <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.10.0/dist/html-to-image.min.js"></script>
     <script>
+      document.getElementById("current-date").innerText = new Date()
+        .toISOString()
+        .split("T")[0];
+
       const overlayImage1 = document.getElementById("overlay-image1");
       const overlayImage2 = document.getElementById("overlay-image2");
 
