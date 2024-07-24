@@ -51,13 +51,13 @@
       .member-option,
       .frame-option {
         width: 70px;
-        height: 100px;
+        height: 90px;
         margin: 10px;
         cursor: pointer;
         border: 2px solid transparent;
         background-size: cover;
         background-position: center;
-        line-height: 100px;
+        line-height: 90px;
         text-align: center;
       }
 
@@ -68,15 +68,19 @@
       /* 멤버 예시 이미지 */
       #member1 {
         background-image: url("icon/original_7.png");
+        background-repeat: no-repeat;
       }
       #member2 {
         background-image: url("icon/original_1.png");
+        background-repeat: no-repeat;
       }
       #member3 {
         background-image: url("icon/original_11.png");
+        background-repeat: no-repeat;
       }
       #member4 {
         background-image: url("icon/original_5.png");
+        background-repeat: no-repeat;
       }
 
       /* 기본 색상 프레임 */
@@ -84,10 +88,11 @@
         background-color: #f0f0f0;
       }
       #basic1 {
-        background-color: #e0e0e0;
+        background-color: #000000;
+        color: #fff;
       }
       #basic2 {
-        background-color: #d0d0d0;
+        background-color: #ffe3bf;
       }
 
       .photos {
@@ -219,8 +224,12 @@
         <div class="member-option" id="member2" data-color="#e2d4f8"></div>
         <div class="member-option" id="member3" data-color="#ff829e"></div>
         <div class="member-option" id="member4" data-color="#284ce6"></div>
-        <div class="basic-frame" id="basic1" data-color="#e0e0e0">Basic 1</div>
-        <div class="basic-frame" id="basic2" data-color="#d0d0d0">Basic 2</div>
+        <div class="basic-frame member-option" id="basic1" data-color="#000000">
+          Basic 1
+        </div>
+        <div class="basic-frame member-option" id="basic2" data-color="#ffe3bf">
+          Basic 2
+        </div>
         <button class="reset-button" onclick="resetSelection()">Reset</button>
       </div>
       <div class="frame-selection">
