@@ -30,22 +30,17 @@
       body {
         margin: 0;
         display: flex;
-        justify-content: center;
-        background-image: url("./background.png");
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f0f0;
       }
 
       .container {
         width: 390px;
-        height: 100%;
         margin-bottom: 100px;
       }
 
-      .photo-container {
-        background-color: #ff9d73;
-        padding-top: 5px;
-        position: relative;
-      }
-
+      .member-selection,
       .frame-selection {
         display: flex;
         justify-content: center;
@@ -53,44 +48,66 @@
         flex-wrap: wrap;
       }
 
+      .member-option,
       .frame-option {
-        width: 60px;
-        height: 80px;
+        width: 70px;
+        height: 100px;
         margin: 10px;
         cursor: pointer;
-        border: 5px solid transparent;
+        border: 2px solid transparent;
+        background-size: cover;
+        background-position: center;
+        line-height: 100px;
+        text-align: center;
       }
 
-      #frame1 {
-        background-color: red;
+      .frame-option {
+        border: 2px solid #ccc;
       }
-      #frame2 {
-        background-color: blue;
+
+      /* 멤버 예시 이미지 */
+      #member1 {
+        background-image: url("icon/original_7.png");
       }
-      #frame3 {
-        background-color: rgb(35, 192, 35);
+      #member2 {
+        background-image: url("icon/original_1.png");
       }
-      #frame4 {
-        background-color: rgb(203, 43, 243);
+      #member3 {
+        background-image: url("icon/original_11.png");
       }
-      #frame5 {
-        background-color: rgb(243, 87, 243);
+      #member4 {
+        background-image: url("icon/original_5.png");
       }
-      #frame6 {
-        background-color: rgb(0, 81, 255);
+
+      /* 기본 색상 프레임 */
+      .basic-frame {
+        background-color: #f0f0f0;
+      }
+      #basic1 {
+        background-color: #e0e0e0;
+      }
+      #basic2 {
+        background-color: #d0d0d0;
       }
 
       .photos {
-        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        position: relative;
       }
 
       .photo-frame {
         background-color: white;
-        margin: 15px 20px;
-        height: 200px;
+        margin: 10px;
         position: relative;
-        border: 10px solid transparent;
+        border: 2px solid #ddd;
         overflow: hidden;
+        flex: 1 1 calc(50% - 20px);
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .photo-frame img {
@@ -109,21 +126,48 @@
         cursor: pointer;
       }
 
+      .remove-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 5px;
+        display: none;
+      }
+
+      .photo-frame:hover .remove-button {
+        display: block;
+      }
+
       .overlay-image {
         position: absolute;
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         pointer-events: none;
       }
 
-      .overlay-image.image1 {
-        top: 0;
-        left: 0;
+      .overlay-image.overlay1 {
+        top: 10px;
+        left: 10px;
       }
 
-      .overlay-image.image2 {
-        bottom: 0;
-        right: 0;
+      .overlay-image.overlay2 {
+        bottom: 10px;
+        right: 10px;
+      }
+
+      .overlay-bottom {
+        bottom: 10px !important;
+        top: auto !important;
+      }
+
+      .photo-container {
+        position: relative;
+        background-color: #ffe3bf;
+        border: 1px solid #cecece;
       }
 
       .footer {
@@ -147,19 +191,6 @@
         margin-bottom: 40px;
       }
 
-      .photo-description {
-        color: white;
-        background-color: black;
-        width: fit-content;
-        padding: 0 20px;
-        margin-bottom: 10px;
-        border-radius: 10px;
-        position: absolute;
-        bottom: 0;
-        transform: translate(-50%);
-        left: 50%;
-      }
-
       .save-button {
         display: block;
         margin: 20px auto;
@@ -168,166 +199,194 @@
         border: 1px solid #e1e1e1;
         border-radius: 5px;
         cursor: pointer;
+        display: none; /* Initially hidden */
       }
 
-      .remove-button {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: rgba(255, 255, 255, 0.7);
-        border: none;
-        border-radius: 50%;
+      .reset-button {
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #ffaaaa;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
         cursor: pointer;
-        width: 24px;
-        height: 24px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .photo-frame:hover .remove-button {
-        display: flex;
       }
     </style>
   </head>
   <body>
-    <div class="container" id="container">
-      <div class="frame-selection">
-        <div id="frame1" class="frame-option"></div>
-        <div id="frame2" class="frame-option"></div>
-        <div id="frame3" class="frame-option"></div>
-        <div id="frame4" class="frame-option"></div>
-        <div id="frame5" class="frame-option"></div>
-        <div id="frame6" class="frame-option"></div>
+    <div class="container">
+      <div class="member-selection">
+        <div class="member-option" id="member1" data-color="#e4f5c8"></div>
+        <div class="member-option" id="member2" data-color="#e2d4f8"></div>
+        <div class="member-option" id="member3" data-color="#ff829e"></div>
+        <div class="member-option" id="member4" data-color="#284ce6"></div>
+        <div class="basic-frame" id="basic1" data-color="#e0e0e0">Basic 1</div>
+        <div class="basic-frame" id="basic2" data-color="#d0d0d0">Basic 2</div>
+        <button class="reset-button" onclick="resetSelection()">Reset</button>
       </div>
-      <button class="save-button" onclick="saveImage()">Save Image</button>
-      <div class="photo-container" id="photo-container">
-        <div class="photos">
-          <div id="image1" class="photo-frame">
-            <input
-              type="file"
-              accept="image/*"
-              onchange="loadImage(event, 'image1')"
-            />
-            <img id="img1" src="" alt="" style="display: none" />
-            <button class="remove-button" onclick="removeImage('image1')">
-              x
-            </button>
-          </div>
-          <div id="image2" class="photo-frame">
-            <input
-              type="file"
-              accept="image/*"
-              onchange="loadImage(event, 'image2')"
-            />
-            <img id="img2" src="" alt="" style="display: none" />
-            <button class="remove-button" onclick="removeImage('image2')">
-              x
-            </button>
-          </div>
-          <div id="image3" class="photo-frame">
-            <input
-              type="file"
-              accept="image/*"
-              onchange="loadImage(event, 'image3')"
-            />
-            <img id="img3" src="" alt="" style="display: none" />
-            <button class="remove-button" onclick="removeImage('image3')">
-              x
-            </button>
-          </div>
-          <div id="image4" class="photo-frame">
-            <input
-              type="file"
-              accept="image/*"
-              onchange="loadImage(event, 'image4')"
-            />
-            <img id="img4" src="" alt="" style="display: none" />
-            <button class="remove-button" onclick="removeImage('image4')">
-              x
-            </button>
-          </div>
+      <div class="frame-selection">
+        <div id="frame1" class="frame-option" style="background-color: #f5f5f5">
+          2x2
         </div>
-
+        <div id="frame2" class="frame-option" style="background-color: #e5e5e5">
+          1x3
+        </div>
+        <div id="frame3" class="frame-option" style="background-color: #d5d5d5">
+          3x1
+        </div>
+        <div id="frame4" class="frame-option" style="background-color: #cccccc">
+          1x2
+        </div>
+      </div>
+      <div class="photo-container">
+        <div class="photos" id="photo-area">
+          <!-- 사진 프레임이 여기에 동적으로 추가됩니다. -->
+        </div>
         <div class="footer">
-          <p class="f-title">Stel Live Happy Time</p>
+          <p class="f-title">Stel Live</p>
           <p class="f-date" id="current-date"></p>
         </div>
         <img
           id="overlay-image1"
-          class="overlay-image image1"
+          class="overlay-image overlay1"
           style="display: none"
         />
         <img
           id="overlay-image2"
-          class="overlay-image image2"
+          class="overlay-image overlay2"
           style="display: none"
         />
       </div>
+      <button class="save-button" id="save-button" onclick="saveImage()">
+        Save Image
+      </button>
     </div>
-    <!-- 라이브러리 로드 -->
+
     <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.10.0/dist/html-to-image.min.js"></script>
     <script>
       document.getElementById("current-date").innerText = new Date()
         .toISOString()
         .split("T")[0];
 
-      const overlayImage1 = document.getElementById("overlay-image1");
-      const overlayImage2 = document.getElementById("overlay-image2");
+      const defaultBackgroundColor = "#ffe3bf";
 
-      document.querySelectorAll(".frame-option").forEach((frame) => {
-        frame.addEventListener("click", () => {
-          const color = window.getComputedStyle(frame).backgroundColor;
-          document.querySelector(".photo-container").style.backgroundColor =
-            color;
+      function resetSelection() {
+        document.querySelector(".photo-container").style.backgroundColor =
+          defaultBackgroundColor;
+        document.getElementById("overlay-image1").style.display = "none";
+        document.getElementById("overlay-image2").style.display = "none";
+        document.getElementById("save-button").style.display = "none"; // Hide the save button
+      }
 
-          // 프레임별 이미지 설정
-          switch (frame.id) {
-            case "frame3":
-              overlayImage1.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_7.png";
-              overlayImage2.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_8.png";
-              overlayImage1.style.display = "block";
-              overlayImage2.style.display = "block";
-              break;
-            case "frame4":
-              overlayImage1.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_1.png";
-              overlayImage2.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_9.png";
-              overlayImage1.style.display = "block";
-              overlayImage2.style.display = "block";
-              break;
-            case "frame5":
-              overlayImage1.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_11.png";
-              overlayImage2.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_17.png";
-              overlayImage1.style.display = "block";
-              overlayImage2.style.display = "block";
-              break;
-            case "frame6":
-              overlayImage1.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_5.png";
-              overlayImage1.style.display = "block";
-              overlayImage2.src =
-                "https://wsxqead.github.io/photo_capture/icon/original_10.png";
-              overlayImage2.style.display = "block";
-              break;
-            default:
+      // 멤버 선택 시 색상 및 오버레이 이미지 설정
+      document
+        .querySelectorAll(".member-option, .basic-frame")
+        .forEach((member) => {
+          member.addEventListener("click", () => {
+            const selectedMemberColor = member.getAttribute("data-color");
+            document.querySelector(".photo-container").style.backgroundColor =
+              selectedMemberColor;
+
+            const overlayImage1 = document.getElementById("overlay-image1");
+            const overlayImage2 = document.getElementById("overlay-image2");
+
+            if (member.classList.contains("basic-frame")) {
               overlayImage1.style.display = "none";
               overlayImage2.style.display = "none";
+            } else {
+              switch (member.id) {
+                case "member1":
+                  overlayImage1.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_7.png";
+                  overlayImage2.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_8.png";
+                  break;
+                case "member2":
+                  overlayImage1.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_1.png";
+                  overlayImage2.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_9.png";
+                  break;
+                case "member3":
+                  overlayImage1.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_11.png";
+                  overlayImage2.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_17.png";
+                  break;
+                case "member4":
+                  overlayImage1.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_5.png";
+                  overlayImage2.src =
+                    "https://wsxqead.github.io/photo_capture/icon/original_10.png";
+                  break;
+                default:
+                  overlayImage1.style.display = "none";
+                  overlayImage2.style.display = "none";
+                  document.querySelector(
+                    ".photo-container"
+                  ).style.backgroundColor = defaultBackgroundColor;
+                  return;
+              }
+              overlayImage1.style.display = "block";
+              overlayImage2.style.display = "block";
+            }
+
+            document.getElementById("save-button").style.display = "block"; // Show the save button
+          });
+        });
+
+      // 프레임 선택 시 레이아웃 변경 및 오버레이 위치 조정
+      document.querySelectorAll(".frame-option").forEach((frame) => {
+        frame.addEventListener("click", () => {
+          const photoArea = document.getElementById("photo-area");
+          const overlayImage1 = document.getElementById("overlay-image1");
+
+          photoArea.innerHTML = ""; // 기존 프레임 제거
+          switch (frame.id) {
+            case "frame1":
+              createPhotoFrames(photoArea, 2, 2);
+              overlayImage1.classList.remove("overlay-bottom");
+              break;
+            case "frame2":
+              createPhotoFrames(photoArea, 1, 3);
+              overlayImage1.classList.add("overlay-bottom");
+              break;
+            case "frame3":
+              createPhotoFrames(photoArea, 3, 1);
+              overlayImage1.classList.remove("overlay-bottom");
+              break;
+            case "frame4":
+              createPhotoFrames(photoArea, 1, 2);
+              overlayImage1.classList.remove("overlay-bottom");
+              break;
+            default:
+              createPhotoFrames(photoArea, 1, 1);
+              overlayImage1.classList.remove("overlay-bottom");
           }
         });
       });
 
+      function createPhotoFrames(container, rows, cols) {
+        for (let i = 0; i < rows * cols; i++) {
+          const frame = document.createElement("div");
+          frame.className = "photo-frame";
+          frame.style.flex = `1 1 calc(100% / ${cols} - 20px)`;
+          frame.innerHTML = `
+          <input type="file" accept="image/*" onchange="loadImage(event, 'img${
+            i + 1
+          }')">
+          <img id="img${i + 1}" src="" alt="" style="display: none">
+          <button class="remove-button" onclick="removeImage('${
+            i + 1
+          }')">X</button>
+        `;
+          container.appendChild(frame);
+        }
+      }
+
       function loadImage(event, id) {
         const reader = new FileReader();
         reader.onload = function () {
-          const imgElement = document.getElementById(
-            `img${id.charAt(id.length - 1)}`
-          );
+          const imgElement = document.getElementById(id);
           imgElement.src = reader.result;
           imgElement.style.display = "block";
         };
@@ -335,17 +394,16 @@
       }
 
       function removeImage(id) {
-        const imgElement = document.getElementById(
-          `img${id.charAt(id.length - 1)}`
-        );
+        const imgElement = document.getElementById(`img${id}`);
         imgElement.src = "";
         imgElement.style.display = "none";
-        const inputElement = document.querySelector(`#${id} input`);
+        // 입력 요소를 초기화하여 같은 이미지를 다시 업로드할 수 있게 함
+        const inputElement = imgElement.previousElementSibling;
         inputElement.value = "";
       }
 
       function saveImage() {
-        const container = document.getElementById("photo-container");
+        const container = document.querySelector(".photo-container");
         const currentDate = new Date();
         const fileName = `photo_${currentDate.getFullYear()}${String(
           currentDate.getMonth() + 1
@@ -359,32 +417,17 @@
           "0"
         )}.png`;
 
-        // 이미지가 로드되었는지 확인
-        const images = document.querySelectorAll(".overlay-image");
-        const loadPromises = Array.from(images).map((image) => {
-          return new Promise((resolve) => {
-            if (image.complete && image.naturalHeight !== 0) {
-              resolve();
-            } else {
-              image.onload = resolve;
-              image.onerror = resolve;
-            }
+        htmlToImage
+          .toPng(container)
+          .then((dataUrl) => {
+            const link = document.createElement("a");
+            link.download = fileName;
+            link.href = dataUrl;
+            link.click();
+          })
+          .catch((error) => {
+            console.error("Error generating image:", error);
           });
-        });
-
-        Promise.all(loadPromises).then(() => {
-          htmlToImage
-            .toPng(container)
-            .then((dataUrl) => {
-              const link = document.createElement("a");
-              link.download = fileName;
-              link.href = dataUrl;
-              link.click();
-            })
-            .catch((error) => {
-              console.error("Error generating image:", error);
-            });
-        });
       }
     </script>
   </body>
