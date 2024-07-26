@@ -588,10 +588,16 @@
           workerScript: "js/gif.worker.js",
         });
 
-        htmlToImage
-          .toCanvas(container)
-          .then((canvas) => {
-            gif.addFrame(canvas, { delay: 200 });
+        const addFrames = async () => {
+          for (let i = 0; i < 5; i++) {
+            // 예시로 5개의 프레임 생성
+            const canvas = await htmlToImage.toCanvas(container);
+            gif.addFrame(canvas, { delay: 500 }); // 각 프레임의 지연 시간 500ms
+          }
+        };
+
+        addFrames()
+          .then(() => {
             gif.on("finished", (blob) => {
               const link = document.createElement("a");
               link.download = "photo.gif";
