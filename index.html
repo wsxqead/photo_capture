@@ -326,6 +326,15 @@
         <div id="frame4" class="frame-option" style="background-color: #cccccc">
           D
         </div>
+        <div id="frame5" class="frame-option" style="background-color: #bbb">
+          E (6칸)
+        </div>
+        <div id="frame6" class="frame-option" style="background-color: #aaa">
+          F (7칸)
+        </div>
+        <div id="frame7" class="frame-option" style="background-color: #aaa">
+          G
+        </div>
       </div>
       <div class="photo-container">
         <div class="photos" id="photo-area">
@@ -482,19 +491,31 @@
           photoArea.innerHTML = ""; // 기존 프레임 제거
           switch (frame.id) {
             case "frame1":
-              createPhotoFrames(photoArea, 2, 2);
+              createPhotoFrames(photoArea, 1, 1, 1, 1);
               overlayImage1.classList.remove("overlay-bottom");
               break;
             case "frame2":
-              createPhotoFrames(photoArea, 1, 3);
+              createPhotoFrames(photoArea, 2, 1);
               overlayImage1.classList.add("overlay-bottom");
               break;
             case "frame3":
-              createPhotoFrames(photoArea, 3, 1);
+              createPhotoFrames(photoArea, 1, 1, 1);
               overlayImage1.classList.remove("overlay-bottom");
               break;
             case "frame4":
-              createPhotoFrames(photoArea, 1, 2);
+              createPhotoFrames(photoArea, 1, 1);
+              overlayImage1.classList.remove("overlay-bottom");
+              break;
+            case "frame5":
+              createPhotoFrames(photoArea, 2, 2, 2); // 6칸 레이아웃
+              overlayImage1.classList.remove("overlay-bottom");
+              break;
+            case "frame6":
+              createPhotoFrames(photoArea, 2, 2, 2, 1); // 7칸 레이아웃
+              overlayImage1.classList.remove("overlay-bottom");
+              break;
+            case "frame7":
+              createPhotoFrames(photoArea, 2, 2);
               overlayImage1.classList.remove("overlay-bottom");
               break;
             default:
@@ -504,22 +525,44 @@
         });
       });
 
-      function createPhotoFrames(container, rows, cols) {
-        for (let i = 0; i < rows * cols; i++) {
-          const frame = document.createElement("div");
-          frame.className = "photo-frame";
-          frame.style.flex = `1 1 calc(100% / ${cols} - 20px)`;
-          frame.innerHTML = `
-          <input type="file" accept="image/*" onchange="loadImage(event, 'img${
-            i + 1
-          }')">
-          <img id="img${i + 1}" src="" alt="" style="display: none">
-          <button class="remove-button" onclick="removeImage('${
-            i + 1
-          }')">X</button>
-        `;
-          container.appendChild(frame);
-        }
+      // function createPhotoFrames(container, rows, cols) {
+      //   for (let i = 0; i < rows * cols; i++) {
+      //     const frame = document.createElement("div");
+      //     frame.className = "photo-frame";
+      //     frame.style.flex = `1 1 calc(100% / ${cols} - 20px)`;
+      //     frame.innerHTML = `
+      //     <input type="file" accept="image/*" onchange="loadImage(event, 'img${
+      //       i + 1
+      //     }')">
+      //     <img id="img${i + 1}" src="" alt="" style="display: none">
+      //     <button class="remove-button" onclick="removeImage('${
+      //       i + 1
+      //     }')">X</button>
+      //   `;
+      //     container.appendChild(frame);
+      //   }
+      // }
+      function createPhotoFrames(container, ...layout) {
+        let photoIndex = 1; // 사진 인덱스 초기화
+        layout.forEach((cols) => {
+          const row = document.createElement("div");
+          row.style.display = "flex";
+          row.style.width = "100%";
+
+          for (let i = 0; i < cols; i++) {
+            const frame = document.createElement("div");
+            frame.className = "photo-frame";
+            frame.style.flex = `1 1 calc(100% / ${cols} - 20px)`;
+            frame.innerHTML = `
+        <input type="file" accept="image/*" onchange="loadImage(event, 'img${photoIndex}')">
+        <img id="img${photoIndex}" src="" alt="" style="display: none">
+        <button class="remove-button" onclick="removeImage('${photoIndex}')">X</button>
+      `;
+            row.appendChild(frame);
+            photoIndex++;
+          }
+          container.appendChild(row);
+        });
       }
 
       function loadImage(event, id) {
